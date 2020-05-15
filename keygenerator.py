@@ -4,51 +4,58 @@ from tkinter import *
 
 class Keygenerator():
 
-	def __init__(self):
-		self.number = list(range(ord('a'), ord('z')))
+    def __init__(self):
+        self.number = list(range(ord('a'), ord('z')))
 
-	def getNumbers(self):
-		return self.number
+    def getNumbers(self):
+        return self.number
 
-	def fixNumbers(self):
-		random.shuffle(self.number)
-
+    def fixNumbers(self):
+        random.shuffle(self.number)
 
 
 class Gui():
-    
-  
+
     def __init__(self):
         self.root = Tk()
-        self.heigth = 500
-        self.width = 500
-        self.root.geometry(f"{self.heigth}x{self.width}")
-        self.keygenerator = Keygenerator()
-        
+        self.frame = Frame(self.root, width=1000, height=1000)
+        self.Keygenerator = Keygenerator()
+
+    def guiInit(self):
+        heigth = 1000
+        width = 1000
+        self.root.geometry(f"{heigth}x{width}")
+
+        self.addStartButton()
+        self.addEntry()
 
     def guiRunning(self):
+        self.frame.pack()
         self.root.mainloop()
 
     def addNums(self):
-        self.keygenerator.fixNumbers()
-        nums = self.keygenerator.getNumbers()
-        
-        label = Label(self.root, text="{0}".format(chr(nums[0])))
+        self.Keygenerator.fixNumbers()
+        nums = self.Keygenerator.getNumbers()
+
+        label = Label(self.frame, text="{0}".format(chr(nums[0])))
         label.pack()
-        
+
+    def addStartButton(self):
+        button = Button(self.frame)
+        button.pack()
 
     def addEntry(self):
-        entry = Entry(self.root)
+        entry = Entry(self.frame)
         entry.pack()
-        return entry
 
-        
+    """def addFrame(self):
+        frame =
+        return frame"""
 
 
 gui = Gui()
 
 gui.addNums()
-entry = gui.addEntry()
-print(entry.get())
+gui.guiInit()
 gui.guiRunning()
-
+print(text.get())
