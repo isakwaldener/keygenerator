@@ -1,0 +1,10 @@
+- Istället för att generera new key så skapa en lista med alla nummer och sen shuffle för att kunna visa näst kommande bokstäver
+    empty list that depending on the mode get different ints that shuffles 
+    around.
+- fixa så att shift funkar för att all keys ska fungera
+- Ta bort keys som inte fungerar och som visar "Unknown" 
+- Lägga till highscores
+- Lägga till olika modes i början med knappar man kan klicka på
+- Fixa game over och scores
+- Fixa main function
+- Fixa git så de går att jobba på olika datorer!!!

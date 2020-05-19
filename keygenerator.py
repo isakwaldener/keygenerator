@@ -1,61 +1,54 @@
 import random
-from tkinter import *
+import pygame
+from pygame.locals import *
+pygame.init()
 
 
-class Keygenerator():
-
-    def __init__(self):
-        self.number = list(range(ord('a'), ord('z')))
-
-    def getNumbers(self):
-        return self.number
-
-    def fixNumbers(self):
-        random.shuffle(self.number)
-
-
-class Gui():
+class keygenerator():
 
     def __init__(self):
-        self.root = Tk()
-        self.frame = Frame(self.root, width=1000, height=1000)
-        self.Keygenerator = Keygenerator()
+        self.mode = None
+        self.keys = []
 
-    def guiInit(self):
-        heigth = 1000
-        width = 1000
-        self.root.geometry(f"{heigth}x{width}")
+    def generateNewKeys(self):
 
-        self.addStartButton()
-        self.addEntry()
+        if self.mode:
+            self.keys = [i for i in range(self.mode[0], self.mode[1])]  # add mode values to this
+        else:
+            self.keys = [i for i in range(97, 122)]
+        random.shuffle(self.keys)
+        print(self.keys)
 
-    def guiRunning(self):
-        self.frame.pack()
-        self.root.mainloop()
+    def getKey(self, num):
+        if not self.keys:
+            self.generateNewKeys()
+        key = self.keys[num]
+        return key
 
-    def addNums(self):
-        self.Keygenerator.fixNumbers()
-        nums = self.Keygenerator.getNumbers()
+    def removeFirstKey(self):
+        del self.keys[0]
 
-        label = Label(self.frame, text="{0}".format(chr(nums[0])))
-        label.pack()
-
-    def addStartButton(self):
-        button = Button(self.frame)
-        button.pack()
-
-    def addEntry(self):
-        entry = Entry(self.frame)
-        entry.pack()
-
-    """def addFrame(self):
-        frame =
-        return frame"""
+    def getKeys(self):
+        return self.keys
 
 
-gui = Gui()
+    """def generateNewKey(self):
 
-gui.addNums()
-gui.guiInit()
-gui.guiRunning()
-print(text.get())
+        if self.mode is None:
+            key = randint(97, 122)
+        else:
+            key = randint(self.mode[0], self.mode[1])
+
+        print(key)
+        self.currentKey = key
+
+    def getKey(self):
+        if self.currentKey is None:
+            self.generateNewKey()
+        return self.currentKey"""
+
+    def setMode(self, mode):
+        self.mode = mode
+
+    def getMode(self):
+        return self.mode
