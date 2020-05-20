@@ -8,7 +8,7 @@ class game():
 
     def __init__(self):
         self.keygenerator = keygenerator()
-
+        self.gameOver = False
         self.modes = None
 
     def getKey(self, num):
@@ -21,7 +21,7 @@ class game():
         return self.modes
 
     def setModes(self):
-        self.modes = {"lowerCase": (97, 122), "allKeys": (1, 122)}
+        self.modes = {"upperCase": (65, 90), "allKeys": (1, 122)}
 
     def removeKey(self):
         self.keygenerator.removeFirstKey()
@@ -33,3 +33,11 @@ class game():
                 self.keygenerator.setMode(self.modes[mode])
         except NameError:
             print("Not a correct mode")
+
+    def checkKeys(self, key, mod):
+        self.gameOver, correctkey = self.keygenerator.checkKeys(key, mod)
+        return correctkey
+        
+    def getGameover(self):
+        return self.gameOver
+
