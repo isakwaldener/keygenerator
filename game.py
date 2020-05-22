@@ -10,6 +10,7 @@ class game():
         self.keygenerator = keygenerator()
         self.gameOver = False
         self.modes = None
+        self.points = 0
 
     def getKey(self, num):
         return self.keygenerator.getKey(num)
@@ -36,8 +37,18 @@ class game():
 
     def checkKeys(self, key, mod):
         self.gameOver, correctkey = self.keygenerator.checkKeys(key, mod)
+        if correctkey:
+            self.setPoints(1)
         return correctkey
         
     def getGameover(self):
         return self.gameOver
 
+    def setGameover(self, gameOver):
+        self.gameOver = gameOver
+
+    def setPoints(self, point):
+        self.points += point
+
+    def getPoints(self):
+        return self.points

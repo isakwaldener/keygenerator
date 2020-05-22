@@ -29,6 +29,8 @@ class keygenerator():
         del self.keys[0]
 
     def getKeys(self):
+        if not self.keys:
+            self.generateNewKeys()
         return self.keys
 
     def setMode(self, mode):
@@ -37,35 +39,40 @@ class keygenerator():
     def getMode(self):
         return self.mode
 
-    def checkKeys(self, key, mod):
-        rightkey = None
-        if self.mode[0] == 65 and self.mode[1] == 90:
-            print(key)
-            if key == self.getKey(0) + 32:
-                print("NICe")
-                print(pygame.KMOD_SHIFT)
+    def checkShift(self, mod):
+        if mod & pygame.KMOD_LSHIFT or mod & pygame.KMOD_RSHIFT:
+            return True
+        return False
 
-                if mod & pygame.KMOD_LSHIFT or mod & pygame.KMOD_RSHIFT:
-                    print("UPper")
-                    rightkey = True
-                else:
-                    rightkey = False
+    def checkUpperKeys(self, key, mod):
+        if key == self.getKey(0) + 32:
+            return self.checkShift(mod)
+        else: 
+            # fixes so that the program don't quit if shiftkey is hit
+            if key == 303 or key == 304:
+                return None
             else:
-                if key == 303 or key == 304:
-                    print("allal")
-                    rightkey = None
-                else:
-                    rightkey = False
-        else:
-            if key == pygame.key.name(self.getKey(0)):
-                rightkey = True
-            rightkey = False
+                return False
 
-        if rightkey is None:
+    def checkLowerKeys(self, key):
+        if key == self.getKey(0):
+            return True
+        return False
+
+
+    def checkKeys(self, key, mod):
+        correctkey = None
+        if self.mode is None:
+            correctkey = self.checkLowerKeys(key)
+        elif self.mode[0] == 65 and self.mode[1] == 90:# checks upper
+            correctkey = self.checkUpperKeys(key, mod)
+        
+
+        if correctkey is None:
             return False, False# gameover, correctkey
-        elif rightkey:
-            return False, rightkey
+        elif correctkey:
+            return False, correctkey
         else:
-            return True, rightkey
+            return True, correctkey
 
             

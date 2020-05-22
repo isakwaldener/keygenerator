@@ -33,9 +33,9 @@ class gui():
         self.board.blit(text, (10, 200))
 
     def drawStatus(self, char, height, width):
-        font = pygame.font.Font(None, 100)
+        font = pygame.font.Font(None, 30)
         self.board.fill((250, 250, 250))
-        text = font.render(f"{char}", 14, (0, 0, 0))
+        text = font.render(f"{char}", 10, (0, 0, 0))
         self.board.blit(text, (height, width))
         self.disp.blit(self.board, (0, 0))
         pygame.display.flip()
@@ -43,7 +43,7 @@ class gui():
 
 gui = gui()
 gui.game.setModes()
-gui.game.setCurrentMode("upperCase") # got some unknown keys
+# gui.game.setCurrentMode("upperCase") # got some unknown keys
 count = 0
 exit = False 
 shift = False
@@ -51,19 +51,16 @@ while(not gui.game.getGameover()):
 
     for event in pygame.event.get():
         if event.type is QUIT:
-            exit = True
+            gui.game.setGameover(True)
 
         if event.type == pygame.KEYUP:
 
             if gui.game.checkKeys(event.key, event.mod):
-                print("here")
                 gui.game.removeKey()
-                # gui.drawStatus("Correct key", 100, 225)  # doesn't work atm
-                count += 1
-                continue
-            """elif event.key != gui.game.getKey(0):
-                gui.drawStatus("RIP", 100, 100)
-                pygame.time.wait(1000)
-                exit = True"""
+                
+            
 
     gui.updateBoard()
+points = gui.game.getPoints()
+gui.drawStatus(f"RIP! You got {points} Points", 100, 100)
+pygame.time.wait(1000)
