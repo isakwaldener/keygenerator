@@ -10,13 +10,17 @@ class keygenerator():
         self.mode = None
         self.keys = []
 
+
     def generateNewKeys(self):
 
         if self.mode:
             self.keys = [i for i in range(self.mode[0], self.mode[1])]  # add mode values to this
+            random.shuffle(self.keys)
         else:
+            # standard case just regular abc game
             self.keys = [i for i in range(97, 122)]
-        random.shuffle(self.keys)
+
+
         print(self.keys)
 
     def getKey(self, num):
@@ -27,6 +31,7 @@ class keygenerator():
 
     def removeFirstKey(self):
         del self.keys[0]
+
 
     def getKeys(self):
         if not self.keys:
@@ -59,20 +64,16 @@ class keygenerator():
             return True
         return False
 
-
     def checkKeys(self, key, mod):
-        correctkey = None
+        correctKey = None
         if self.mode is None:
-            correctkey = self.checkLowerKeys(key)
-        elif self.mode[0] == 65 and self.mode[1] == 90:# checks upper
-            correctkey = self.checkUpperKeys(key, mod)
-        
+            correctKey = self.checkLowerKeys(key)
+        elif self.mode[0] == 65 and self.mode[1] == 90:  # checks upper
+            correctKey = self.checkUpperKeys(key, mod)
 
-        if correctkey is None:
-            return False, False# gameover, correctkey
-        elif correctkey:
-            return False, correctkey
+        if correctKey is None:
+            return False, False  # gameover, correctKey
+        elif correctKey:
+            return False, correctKey
         else:
-            return True, correctkey
-
-            
+            return True, correctKey
