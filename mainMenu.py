@@ -11,27 +11,41 @@ class mainMenu:
             self.label = Label(root, text="Choose mode")
             self.label.pack()
 
-            self.greet_button = Button(root, text="lowerCase", command=self.lowercasegame)
-            self.greet_button.pack()
+            self.lower_button = Button(root, text="lowerCase", command=self.lowercasegame)
+            self.lower_button.pack()
 
-            self.close_button = Button(root, text="upperCase", command=self.uppercasegame)
-            self.close_button.pack()
+            self.upper_button = Button(root, text="upperCase", command=self.uppercasegame)
+            self.upper_button.pack()
 
-            self.close_button = Button(root, text="abc", command=self.abcgame)
-            self.close_button.pack()
+            self.abc_button = Button(root, text="abc", command=self.abcgame)
+            self.abc_button.pack()
+
+            # self.all_button = Button(root, text="allKeys", command=self.allgame)
+            # self.all_button.pack()
 
         def lowercasegame(self):
-            root.destroy()
+            self.root.destroy()
             self.game.createGame("lowerCase")
 
         def uppercasegame(self):
-            root.destroy()
+            self.root.destroy()
             self.game.createGame("upperCase")
 
         def abcgame(self):
-            root.destroy()
+            self.root.destroy()
             self.game.createGame("abc")
 
-root = Tk()
-gui = mainMenu(root)
-root.mainloop()
+        def allgame(self):
+            # doesn't work atm, need to fix so u can check shift
+            self.root.destroy()
+            self.game.createGame("allKeys")
+
+def main():
+
+    root = Tk()
+    mainMenu(root)
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()

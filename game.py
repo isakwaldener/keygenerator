@@ -26,7 +26,7 @@ class game(keygenerator):
 
     def setModes(self):
         self.modes = {"upperCase": (65, 90),
-                      "allKeys": (1, 122),
+                      "allKeys": (32, 122),
                       "lowerCase": (97, 122),
                       "abc": (97, 122)}
 
@@ -38,7 +38,7 @@ class game(keygenerator):
         self.clock.tick()
         self.totalTime += self.clock.get_time()
         print(self.totalTime / 1000)
-        print(self.calculateWPM())
+        print(self.getWPM())
 
     def setCurrentMode(self, mode):
 
@@ -70,10 +70,18 @@ class game(keygenerator):
         return self.points
 
     def calculateWPM(self):
+        wpm = 0
         if self.totalTime != 0:
             cps = self.points // (self.totalTime / 1000)
             wpm = cps * 60 / 5
             print(wpm)
+        return wpm
+
+    def getWPM(self):
+        return self.calculateWPM()
+
+    def getTotalTimeInSec(self):
+        return self.totalTime / 1000  # convert ms to s
 
     def createGame(self, mode):
         self.setCurrentMode(mode)
@@ -95,3 +103,8 @@ class game(keygenerator):
             self.gui.updateBoard()
 
         self.gui.drawEndScreen()
+
+        while True:
+            for event in pygame.event.get():
+                if event.type is QUIT:
+                    pygame.quit()
