@@ -23,7 +23,7 @@ class gui():
         # draw buttons for different modes and highscores
         font = pygame.font.Font(None, 30)
         self.board.fill((250, 250, 250))
-        chars = [chr(i) for i in self.game.keygenerator.getKeys()]
+        chars = [chr(i) for i in self.game.getKeys()]
 
         text = font.render(f"{' '.join(chars)}", 1, (0, 0, 0))
         self.board.blit(text, (10, 200))

@@ -1,13 +1,14 @@
 from tkinter import Tk, Label, Button
 from game import game
 
+
 class mainMenu:
         def __init__(self, root):
             self.root = root
             root.title("mainMenu")
             self.game = game()
 
-            self.label = Label(root, text="This is our first GUI!")
+            self.label = Label(root, text="Choose mode")
             self.label.pack()
 
             self.greet_button = Button(root, text="lowerCase", command=self.lowercasegame)
@@ -22,7 +23,6 @@ class mainMenu:
         def lowercasegame(self):
             root.destroy()
             self.game.createGame("lowerCase")
-
 
         def uppercasegame(self):
             root.destroy()

@@ -5,10 +5,10 @@ from pygame.locals import *
 pygame.init()
 
 
-class game():
+class game(keygenerator):
 
     def __init__(self):
-        self.keygenerator = keygenerator()
+        keygenerator.__init__(self)
         self.gameOver = False
         self.modes = None
         self.points = 0
@@ -18,11 +18,8 @@ class game():
         self.first = True
         self.totalTime = 0
 
-    def getKey(self, num):
-        return self.keygenerator.getKey(num)
-
     def setNewKeys(self):
-        self.keygenerator.generateNewKeys()
+        self.generateNewKeys()
 
     def getModes(self):
         return self.modes
@@ -30,10 +27,11 @@ class game():
     def setModes(self):
         self.modes = {"upperCase": (65, 90),
                       "allKeys": (1, 122),
-                      "lowerCase": (97, 122)}
+                      "lowerCase": (97, 122),
+                      "abc": (97, 122)}
 
     def removeKey(self):
-        self.keygenerator.removeFirstKey()
+        self.removeFirstKey()
         if self.first:
             self.clock.tick()
             self.first = False
@@ -46,12 +44,15 @@ class game():
 
         try:
             if mode in self.modes:
-                self.keygenerator.setMode(self.modes[mode])
+                if mode == "abc":
+                    self.setMode(None)
+                else:
+                    self.setMode(self.modes[mode])
         except NameError:
             print("Not a correct mode")
 
     def checkKeys(self, key, mod):
-        self.gameOver, correctkey = self.keygenerator.checkKeys(key, mod)
+        self.gameOver, correctkey = self.checkMods(key, mod)
         if correctkey:
             self.setPoints(1)
         return correctkey

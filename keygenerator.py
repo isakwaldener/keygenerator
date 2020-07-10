@@ -20,7 +20,6 @@ class keygenerator():
             # standard case just regular abc game
             self.keys = [i for i in range(97, 122)]
 
-
         print(self.keys)
 
     def getKey(self, num):
@@ -31,7 +30,6 @@ class keygenerator():
 
     def removeFirstKey(self):
         del self.keys[0]
-
 
     def getKeys(self):
         if not self.keys:
@@ -64,12 +62,15 @@ class keygenerator():
             return True
         return False
 
-    def checkKeys(self, key, mod):
+    def checkMods(self, key, mod):
         correctKey = None
-        if self.mode is None:
+
+        if self.mode is None:  # if something bugs and mode is none
             correctKey = self.checkLowerKeys(key)
         elif self.mode[0] == 65 and self.mode[1] == 90:  # checks upper
             correctKey = self.checkUpperKeys(key, mod)
+        else:
+            correctKey = self.checkLowerKeys(key)
 
         if correctKey is None:
             return False, False  # gameover, correctKey
