@@ -3,8 +3,13 @@ import pygame
 from pygame.locals import *
 pygame.init()
 
+# maybe use generator instead of list for the keys to save memory
 
 class keygenerator():
+    modes = {"upperCase": (65, 90),
+             "allKeys": (32, 122),
+             "lowerCase": (97, 122),
+             "abc": (97, 122)}
 
     def __init__(self):
         self.mode = None
@@ -12,15 +17,13 @@ class keygenerator():
 
 
     def generateNewKeys(self):
+        self.set_mode_keys()
+        if self.mode != "abc":
+            random.shuffle(self.keys) 
 
-        if self.mode:
-            self.keys = [i for i in range(self.mode[0], self.mode[1])]  # add mode values to this
-            random.shuffle(self.keys)
-        else:
-            # standard case just regular abc game
-            self.keys = [i for i in range(97, 122)]
-
-        print(self.keys)
+    def set_mode_keys(self):
+        lower, upper = self.get_mode_limits()
+        self.keys = [i for i in range(lower, upper)]
 
     def getKey(self, num):
         if not self.keys:
@@ -39,23 +42,30 @@ class keygenerator():
     def setMode(self, mode):
         self.mode = mode
 
-    def getMode(self):
+    def get_mode_name(self):
         return self.mode
 
-    def checkShift(self, mod):
+    def get_mode_limits(self):
+        limits = self.modes[self.mode]
+        return limits
+
+    def checkUpperKeys(self, key, mod):
+        if key == self.getKey(0) + 32:
+            return self.check_if_shift_down(mod)
+        else: 
+            self.check_if_shift_released(key)
+    
+    def check_if_shift_down(self, mod):
         if mod & pygame.KMOD_LSHIFT or mod & pygame.KMOD_RSHIFT:
             return True
         return False
 
-    def checkUpperKeys(self, key, mod):
-        if key == self.getKey(0) + 32:
-            return self.checkShift(mod)
-        else: 
-            # fixes so that the program don't quit if shiftkey is hit
-            if key == 303 or key == 304:
-                return None
-            else:
-                return False
+    def check_if_shift_released(self, key):
+        lshift = pygame.KMOD_LSHIFT
+        rshift = pygame.KMOD_RSHIFT
+        if key == lshift or key == rshift:
+            return None
+        return False
 
     def checkLowerKeys(self, key):
         if key == self.getKey(0):
