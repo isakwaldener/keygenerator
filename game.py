@@ -10,13 +10,11 @@ class game(keygenerator):
     def __init__(self):
         keygenerator.__init__(self)
         self.gameOver = False
-        self.modes = None
         self.points = 0
-        self.setModes()
         self.gui = None
         self.clock = pygame.time.Clock()
         self.first = True
-        self.totalTime = 0
+        self.total_time = 0
 
     def setNewKeys(self):
         self.generateNewKeys()
@@ -24,31 +22,24 @@ class game(keygenerator):
     def getModes(self):
         return self.modes
 
-    def setModes(self):
-        self.modes = {"upperCase": (65, 90),
-                      "allKeys": (32, 122),
-                      "lowerCase": (97, 122),
-                      "abc": (97, 122)}
-
     def removeKey(self):
         self.removeFirstKey()
+        self.update_clock()
+
+    def update_clock(self):
+        self.check_if_first()
+        self.clock.tick()
+        self.total_time += self.clock.get_time()
+    
+    def check_if_first(self):
         if self.first:
             self.clock.tick()
             self.first = False
-        self.clock.tick()
-        self.totalTime += self.clock.get_time()
-        print(self.totalTime / 1000)
-        print(self.getWPM())
 
     def setCurrentMode(self, mode):
-
-        try:
-            if mode in self.modes:
-                if mode == "abc":
-                    self.setMode(None)
-                else:
-                    self.setMode(self.modes[mode])
-        except NameError:
+        if mode in self.modes:
+            self.setMode(mode)
+        else:
             print("Not a correct mode")
 
     def checkKeys(self, key, mod):
@@ -71,8 +62,8 @@ class game(keygenerator):
 
     def calculateWPM(self):
         wpm = 0
-        if self.totalTime != 0:
-            cps = self.points // (self.totalTime / 1000)
+        if self.total_time != 0:
+            cps = self.points // (self.total_time / 1000)
             wpm = cps * 60 / 5
             print(wpm)
         return wpm
@@ -81,7 +72,7 @@ class game(keygenerator):
         return self.calculateWPM()
 
     def getTotalTimeInSec(self):
-        return self.totalTime / 1000  # convert ms to s
+        return self.total_time / 1000  # convert ms to s
 
     def createGame(self, mode):
         self.setCurrentMode(mode)
