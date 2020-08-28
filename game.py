@@ -9,21 +9,28 @@ class game(keygenerator):
 
     def __init__(self):
         keygenerator.__init__(self)
-        self.gameOver = False
+        self.gameover = False
         self.points = 0
         self.gui = None
         self.clock = pygame.time.Clock()
         self.first = True
         self.total_time = 0
 
-    def setNewKeys(self):
-        self.generateNewKeys()
+    def remove_key(self):
+        self.remove_first_key()
 
-    def getModes(self):
-        return self.modes
-
-    def removeKey(self):
-        self.removeFirstKey()
+    def check_keys(self, key, mod):
+        correct_key = self.check_key_test(key, mod)
+        if correct_key:
+            self.update_game()
+        elif correct_key == None:
+            pass 
+        else:
+            self.set_gameover(True)
+    
+    def update_game(self):
+        self.add_one_point()
+        self.remove_key()
         self.update_clock()
 
     def update_clock(self):
@@ -36,31 +43,22 @@ class game(keygenerator):
             self.clock.tick()
             self.first = False
 
-    def setCurrentMode(self, mode):
-        if mode in self.modes:
-            self.setMode(mode)
-        else:
-            print("Not a correct mode")
+    def get_gameover(self):
+        return self.gameover
 
-    def checkKeys(self, key, mod):
-        self.gameOver, correctkey = self.checkMods(key, mod)
-        if correctkey:
-            self.setPoints(1)
-        return correctkey
-        
-    def getGameover(self):
-        return self.gameOver
+    def set_gameover(self, gameover):
+        self.gameover = gameover
 
-    def setGameover(self, gameOver):
-        self.gameOver = gameOver
+    def add_one_point(self):
+        self.points += 1 
 
-    def setPoints(self, point):
-        self.points += point
-
-    def getPoints(self):
+    def get_points(self):
         return self.points
 
-    def calculateWPM(self):
+    def get_words_per_min(self):
+        return self.calculate_words_per_min()
+
+    def calculate_words_per_min(self):
         wpm = 0
         if self.total_time != 0:
             cps = self.points // (self.total_time / 1000)
@@ -68,31 +66,22 @@ class game(keygenerator):
             print(wpm)
         return wpm
 
-    def getWPM(self):
-        return self.calculateWPM()
-
-    def getTotalTimeInSec(self):
+    def get_total_time_in_sec(self):
         return self.total_time / 1000  # convert ms to s
 
-    def createGame(self, mode):
-        self.setCurrentMode(mode)
+    def create_game(self, mode):
+        self.set_mode(mode)
         self.gui = gui(self)
-        self.gameLoop()
+        self.game_loop()
 
-    def gameLoop(self):
-        while not self.getGameover():
-
+    def game_loop(self):
+        while not self.get_gameover():
             for event in pygame.event.get():
                 if event.type is QUIT:
-                    self.setGameover(True)
-
+                    self.set_gameover(True)
                 if event.type == pygame.KEYUP:
-
-                    if self.checkKeys(event.key, event.mod):
-                        self.removeKey()
-
+                    self.check_keys(event.key, event.mod)
             self.gui.updateBoard()
-
         self.gui.drawEndScreen()
 
         while True:
