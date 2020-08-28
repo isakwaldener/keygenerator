@@ -1,6 +1,6 @@
 from tkinter import Tk, Label, Button
 from game import game
-
+from Modes import Modes
 
 class mainMenu:
         def __init__(self, root):
@@ -11,34 +11,38 @@ class mainMenu:
             self.label = Label(root, text="Choose mode")
             self.label.pack()
 
-            self.lower_button = Button(root, text="lowerCase", command=self.lowercasegame)
+            self.lower_button = Button(root, text="lowerCase", command=self.lower_case_game)
             self.lower_button.pack()
+            self.root.bind('1', lambda event: self.lower_case_game())
 
-            self.upper_button = Button(root, text="upperCase", command=self.uppercasegame)
+            self.upper_button = Button(root, text="upperCase", command=self.upper_case_game)
             self.upper_button.pack()
+            self.root.bind('2', lambda event: self.upper_case_game())
 
-            self.abc_button = Button(root, text="abc", command=self.abcgame)
+            self.abc_button = Button(root, text="abc", command=self.abc_game)
             self.abc_button.pack()
+            self.root.bind('3', lambda event: self.abc_game())
 
-            # self.all_button = Button(root, text="allKeys", command=self.allgame)
+            # self.all_button = Button(root, text="allKeys", command=self.all_game)
             # self.all_button.pack()
+            # self.root.bind('4', lambda event: self.lower_case_game())
 
-        def lowercasegame(self):
+        def lower_case_game(self):
             self.root.destroy()
-            self.game.createGame("lowerCase")
+            self.game.create_game(Modes.lower)
 
-        def uppercasegame(self):
+        def upper_case_game(self):
             self.root.destroy()
-            self.game.createGame("upperCase")
+            self.game.create_game(Modes.upper)
 
-        def abcgame(self):
+        def abc_game(self):
             self.root.destroy()
-            self.game.createGame("abc")
+            self.game.create_game(Modes.abc)
 
-        def allgame(self):
+        def all_game(self):
             # doesn't work atm, need to fix so u can check shift
             self.root.destroy()
-            self.game.createGame("allKeys")
+            self.game.create_game(Modes.all_keys)
 
 def main():
 
