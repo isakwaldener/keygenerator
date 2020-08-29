@@ -81,8 +81,8 @@ class game(keygenerator):
                     self.set_gameover(True)
                 if event.type == pygame.KEYUP:
                     self.check_keys(event.key, event.mod)
-            self.gui.updateBoard()
-        self.gui.drawEndScreen()
+            self.gui.update_board()
+        self.gui.draw_end_screen()
 
         while True:
             for event in pygame.event.get():
