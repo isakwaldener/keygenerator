@@ -49,13 +49,7 @@ class keygenerator():
         return limits
 
     def check_if_correct_key(self, key, mod):
-        if self.mode.get_name() == "upper":
-            return self.check_upper_keys(key, mod)
-        else:
-            return self.check_lower_keys(key)
-
-    def check_key_test(self, key, mod):
-        if self.get_key(0) >= 32 and self.get_key(0) <= 90:
+        if self.get_key(0) >= 65 and self.get_key(0) <= 90:
             return self.check_upper_keys(key, mod)
         else:
             return self.check_lower_keys(key)
