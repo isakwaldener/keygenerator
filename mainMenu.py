@@ -37,11 +37,6 @@ class mainMenu:
             self.abc_button.pack()
             self.root.bind('3', lambda event: self.abc_game())
 
-        def all_case_button(self):
-            self.all_button = Button(self.root, text="allKeys", command=self.all_game)
-            self.all_button.pack()
-            self.root.bind('4', lambda event: self.lower_case_game())
-
         def lower_case_game(self):
             self.root.destroy()
             self.game.create_game(Modes.lower)
@@ -53,11 +48,6 @@ class mainMenu:
         def abc_game(self):
             self.root.destroy()
             self.game.create_game(Modes.abc)
-
-        def all_game(self):
-            # doesn't work atm, need to fix so u can check shift
-            self.root.destroy()
-            self.game.create_game(Modes.all_keys)
 
 def main():
 
