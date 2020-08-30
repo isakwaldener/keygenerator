@@ -20,12 +20,10 @@ class game(keygenerator):
         self.remove_first_key()
 
     def check_keys(self, key, mod):
-        correct_key = self.check_key_test(key, mod)
+        correct_key = self.check_if_correct_key(key, mod)
         if correct_key:
             self.update_game()
-        elif correct_key == None:
-            pass 
-        else:
+        elif correct_key is not None: 
             self.set_gameover(True)
     
     def update_game(self):
@@ -60,14 +58,15 @@ class game(keygenerator):
 
     def calculate_words_per_min(self):
         wpm = 0
+        one_min_in_seconds = 60
+        chars_per_word = 5
         if self.total_time != 0:
-            cps = self.points // (self.total_time / 1000)
-            wpm = cps * 60 / 5
-            print(wpm)
+            cps = self.points // self.get_total_time_in_sec() 
+            wpm = cps * one_min_in_seconds / chars_per_word
         return wpm
 
     def get_total_time_in_sec(self):
-        return self.total_time / 1000  # convert ms to s
+        return self.total_time / 1000  
 
     def create_game(self, mode):
         self.set_mode(mode)
