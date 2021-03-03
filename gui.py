@@ -59,4 +59,3 @@ class gui():
 
     def draw_black_background(self):
         self.board.fill((250, 250, 250))
-

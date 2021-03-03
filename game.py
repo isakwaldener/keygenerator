@@ -1,5 +1,6 @@
 from keygenerator import keygenerator
 from gui import gui
+from Modes import Modes
 import pygame
 from pygame.locals import *
 pygame.init()
@@ -74,16 +75,39 @@ class game(keygenerator):
         self.game_loop()
 
     def game_loop(self):
-        while not self.get_gameover():
+        running = True
+        while running:
             for event in pygame.event.get():
-                if event.type is QUIT:
-                    self.set_gameover(True)
-                if event.type == pygame.KEYUP:
-                    self.check_keys(event.key, event.mod)
-            self.gui.update_board()
-        self.gui.draw_end_screen()
+                if not self.get_gameover():
+                    if event.type is QUIT:
+                        running = False
+                    if event.type == pygame.KEYUP:
+                        self.check_keys(event.key, event.mod)
+                    self.gui.update_board()
+                else:
+                    if event.type is QUIT:
+                        running = False
+                    if event.type == pygame.KEYUP:
+                        if event.key == ord('1'):
+                            self.restart(Modes.lower)
+                        if event.key == ord('2'):
+                            self.restart(Modes.upper)
+                        if event.key == ord('3'):
+                            self.restart(Modes.abc)
+                        if event.key == 27:
+                            running = False
+            if self.get_gameover():
+                self.gui.draw_end_screen()
 
-        while True:
-            for event in pygame.event.get():
-                if event.type is QUIT:
-                    pygame.quit()
+
+    def restart(self, mode):
+        # restart clock
+        self.set_gameover(False)
+        self.set_mode(mode)
+        self.generate_new_keys()
+        self.total_time = 0
+        self.points = 0
+        self.first = True
+        self.gui.update_board()
+
+
