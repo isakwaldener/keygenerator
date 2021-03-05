@@ -101,7 +101,6 @@ class game(keygenerator):
 
 
     def restart(self, mode):
-        # restart clock
         self.set_gameover(False)
         self.set_mode(mode)
         self.generate_new_keys()

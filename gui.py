@@ -38,6 +38,9 @@ class gui():
         self.add_points_to_endscreen(font)
         self.add_time_to_endscreen(font)
         self.add_wpm_to_endscreen(font)
+        self.add_lower_mode_to_endscreen(font)
+        self.add_upper_mode_to_endscreen(font)
+        self.add_abc_mode_to_endscreen(font)
 
         self.disp.blit(self.board, (0, 0))
         pygame.display.flip()
@@ -56,6 +59,21 @@ class gui():
         wpm = self.game.get_words_per_min()
         textWPM = font.render(f"Words per minute: {wpm}", 10, (0, 0, 0))
         self.board.blit(textWPM, (100, 200))
+
+    def add_lower_mode_to_endscreen(self, font):
+        wpm = self.game.get_words_per_min()
+        textWPM = font.render(f"Restart with lower mode: 1", 10, (0, 0, 0))
+        self.board.blit(textWPM, (100, 300))
+        
+    def add_upper_mode_to_endscreen(self, font):
+        wpm = self.game.get_words_per_min()
+        textWPM = font.render(f"Restart with upper mode: 2", 10, (0, 0, 0))
+        self.board.blit(textWPM, (100, 350))
+
+    def add_abc_mode_to_endscreen(self, font):
+        wpm = self.game.get_words_per_min()
+        textWPM = font.render(f"Restart with abc  mode: 3", 10, (0, 0, 0))
+        self.board.blit(textWPM, (100, 400))
 
     def draw_black_background(self):
         self.board.fill((250, 250, 250))
