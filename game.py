@@ -16,6 +16,8 @@ class game(keygenerator):
         self.clock = pygame.time.Clock()
         self.first = True
         self.total_time = 0
+        self.finished = False
+        self.highscore = 0
 
     def remove_key(self):
         self.remove_first_key()
@@ -31,6 +33,8 @@ class game(keygenerator):
         self.add_one_point()
         self.remove_key()
         self.update_clock()
+        if len(self.keys) == 0:
+            self.finished = True
 
     def update_clock(self):
         self.check_if_first()
@@ -64,6 +68,9 @@ class game(keygenerator):
         if self.total_time != 0:
             cps = self.points // self.get_total_time_in_sec() 
             wpm = cps * one_min_in_seconds / chars_per_word
+
+        if wpm > self.highscore and self.finished:
+            self.highscore = wpm
         return wpm
 
     def get_total_time_in_sec(self):
@@ -78,7 +85,17 @@ class game(keygenerator):
         running = True
         while running:
             for event in pygame.event.get():
-                if not self.get_gameover():
+                if self.finished:
+                    if event.type == pygame.KEYUP:
+                        if event.key == ord('1'):
+                            self.restart(Modes.lower)
+                        if event.key == ord('2'):
+                            self.restart(Modes.upper)
+                        if event.key == ord('3'):
+                            self.restart(Modes.abc)
+                        if event.key == 27:
+                            running = False
+                elif not self.get_gameover():
                     if event.type is QUIT:
                         running = False
                     if event.type == pygame.KEYUP:
@@ -97,10 +114,13 @@ class game(keygenerator):
                         if event.key == 27:
                             running = False
             if self.get_gameover():
-                self.gui.draw_end_screen()
+                self.gui.draw_screen()
+            elif self.finished:
+                self.gui.draw_screen(end=False)
 
 
     def restart(self, mode):
+        self.finished = False
         self.set_gameover(False)
         self.set_mode(mode)
         self.generate_new_keys()
